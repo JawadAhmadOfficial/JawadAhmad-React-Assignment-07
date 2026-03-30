@@ -1,6 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-// Icons
 const icons = {
   Dashboard: (
     <svg
@@ -85,121 +85,64 @@ const icons = {
   ),
 };
 
-// Props: isOpen (state) aur toggleSidebar (function)
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navItems = [
-    { name: "Dashboard", href: "#", active: true },
-    { name: "Projects", href: "#", active: false },
-    { name: "Analytics", href: "#", active: false },
-    { name: "Settings", href: "#", active: false },
-    { name: "Profile", href: "#", active: false },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Projects", href: "/projects" },
+    { name: "Analytics", href: "/analytics" },
+    { name: "Settings", href: "/settings" },
+    { name: "Profile", href: "/profile" },
   ];
 
   return (
     <aside
-      className={`fixed left-0 top-0 h-screen bg-slate-900 text-white flex flex-col transition-all duration-300 
-      ${isOpen ? "w-64" : "w-20"}`} // Agar open hai toh 256px, else 80px
+      className={`fixed left-0 top-0 h-screen bg-slate-900 text-white flex flex-col transition-all duration-300 ${isOpen ? "w-64" : "w-20"}`}
     >
-      {/* Logo Section */}
+      {/* Logo & Toggle */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800">
-        {/* Agar close hai toh sirf icon dikhao, else text */}
         {isOpen ? (
-          <span className="text-xl font-bold text-white tracking-tight">
-            DashBoard Pro
-          </span>
+          <span className="text-xl font-bold">DashBoard Pro</span>
         ) : (
-          <span className="text-xl font-bold text-white mx-auto">D</span>
+          <span className="text-xl font-bold mx-auto">D</span>
         )}
-
-        {/* Close/Open Button (Hamburger/Arrow) */}
         <button
           onClick={toggleSidebar}
           className="p-2 rounded-lg hover:bg-slate-800 transition-colors"
         >
-          {/* Arrow icon change logic */}
-          {isOpen ? (
-            <svg
-              className="w-4 h-4 text-slate-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-              />
-            </svg>
-          ) : (
-            <svg
-              className="w-4 h-4 text-slate-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 5l7 7-7 7M5 5l7 7-7 7"
-              />
-            </svg>
-          )}
+          {isOpen ? "⮜" : "⮞"}
         </button>
       </div>
 
-      {/* Navigation Links */}
+      {/* Navigation */}
       <nav className="flex-1 px-3 py-6 space-y-2">
         {navItems.map((item) => (
-          <a
+          <NavLink
             key={item.name}
-            href={item.href}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative
-              ${
-                item.active
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-white"
-              }`}
+            to={item.href}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${isActive ? "bg-indigo-600 text-white shadow-lg" : "text-slate-400 hover:bg-slate-800 hover:text-white"}`
+            }
           >
-            {/* Icon */}
-            <span
-              className={`flex-shrink-0 ${item.active ? "text-white" : "text-slate-500 group-hover:text-indigo-400"}`}
-            >
-              {icons[item.name]}
-            </span>
-
-            {/* Text (Sirf dikhayi dega jab isOpen true ho) */}
-            <span
-              className={`font-medium text-sm whitespace-nowrap transition-all duration-300 
-               ${isOpen ? "opacity-100" : "opacity-0 hidden"}`}
-            >
-              {item.name}
-            </span>
-
-            {/* Tooltip for closed state (Optional but nice UX) */}
-            {!isOpen && (
-              <div className="absolute left-full ml-6 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                {item.name}
-              </div>
-            )}
-          </a>
+            <span>{icons[item.name]}</span>
+            {isOpen && <span className="font-medium text-sm">{item.name}</span>}
+          </NavLink>
         ))}
       </nav>
 
-      {/* Bottom User Section */}
+      {/* User */}
       <div className="p-4 border-t border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold">
             J
           </div>
-          {/* Text hide/show logic */}
-          <div
-            className={`flex flex-col overflow-hidden transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 hidden"}`}
-          >
-            <span className="text-sm font-medium text-white">Jawad Ahmad</span>
-            <span className="text-xs text-slate-500">Pro Plan</span>
-          </div>
+          {isOpen && (
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-white">
+                Jawad Ahmad
+              </span>
+              <span className="text-xs text-slate-500">Pro Plan</span>
+            </div>
+          )}
         </div>
       </div>
     </aside>

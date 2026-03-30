@@ -1,7 +1,5 @@
 import React from "react";
 
-// 1. Image ko import karein
-// Dhyan dein: Agar aapki image src folder ke bahar hai toh path change karein
 import userImage from "../assets/Jawad Ahmad - Copy.jpg";
 
 const Header = () => {

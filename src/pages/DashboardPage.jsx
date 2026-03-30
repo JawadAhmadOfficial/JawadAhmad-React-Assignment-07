@@ -1,31 +1,36 @@
 import React from "react";
 import DashboardCard from "../Components/DashboardCard";
 
-const stats = [
-  { title: "Total Users", value: "1,204", trend: "+12%" },
-  { title: "Total Projects", value: "56", trend: "+4%" },
-  { title: "Revenue", value: "$3,200", trend: "+8%" },
-  { title: "Active Sessions", value: "345", trend: "-2%" },
-];
-
 const DashboardPage = () => {
+  const stats = [
+    { title: "Total Users", value: "1,204", trend: "+12%" },
+    { title: "Total Projects", value: "56", trend: "+4%" },
+    { title: "Revenue", value: "$3,200", trend: "+8%" },
+    { title: "Active Sessions", value: "345", trend: "-2%" },
+  ];
+
   return (
-    <>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-500 mt-1">
-          Welcome back! Here's what's happening today.
-        </p>
-      </div>
+    <div>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        Dashboard Overview
+      </h1>
+      <p className="text-gray-500 mb-6">
+        Welcome back! Here's what's happening today.
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <DashboardCard key={index} title={stat.title} value={stat.value}>
-            <span
-              className={`${stat.trend.startsWith("+") ? "text-green-500" : "text-red-500"} font-medium`}
-            >
-              {stat.trend}
-            </span>
+            <div className="flex items-center justify-between">
+              <span
+                className={`${
+                  stat.trend.startsWith("+") ? "text-green-500" : "text-red-500"
+                } font-medium flex items-center gap-1`}
+              >
+                {stat.trend}
+              </span>
+              <span className="text-gray-400">vs last month</span>
+            </div>
           </DashboardCard>
         ))}
       </div>
@@ -53,7 +58,7 @@ const DashboardPage = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
